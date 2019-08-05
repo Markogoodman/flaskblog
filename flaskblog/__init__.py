@@ -10,7 +10,8 @@ from flaskblog.config import Config
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = 'users.login'
+login_manager.login_view = 'users.login' # if login_required, go to login page
+login_manager.login_message = 'Login!!'
 login_manager.login_message_category = 'info'
 mail = Mail()
 

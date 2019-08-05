@@ -12,11 +12,13 @@ posts = Blueprint('posts', __name__)
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
+        # POST, save post to db if title and content are valid (ref to forms.py).
         post = Post(title=form.title.data, content=form.content.data, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('main.home'))
+    # GET, render a post writing page.
     return render_template('create_post.html', title='New Post',
                            form=form, legend='New Post')
 
@@ -32,6 +34,7 @@ def post(post_id):
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
+        # only the owner of this post can edit this post
         abort(403)
     form = PostForm()
     if form.validate_on_submit():
